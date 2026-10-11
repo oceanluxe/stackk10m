@@ -55,6 +55,7 @@ import {
   backupCodes,
   insertTeamSchema,
   insertTeamMemberSchema,
+  teamMembers,
   insertTeamActivityLogSchema,
   insertNotificationPreferenceSchema,
   insertUserNotificationSchema,
@@ -230,6 +231,27 @@ async function issueAuthToken(payload: { sub: string; email?: string }) {
 function isManagerUser(user: any) {
   const role = String(user?.role || "").toLowerCase();
   return !!user?.isSuperAdmin || role === "admin" || role === "manager" || role === "owner";
+}
+/**
+ * Extended manager check that also honors team-level admin/owner roles.
+ * The Settings → Team role dropdown edits team_members.role (not users.role),
+ * so a user promoted to admin there must also pass manager-gated endpoints
+ * like API key management. Falls back gracefully on DB errors.
+ */
+async function isManagerUserWithTeams(user: any): Promise<boolean> {
+  if (isManagerUser(user)) return true;
+  try {
+    const memberships = await db
+      .select({ role: teamMembers.role, status: teamMembers.status })
+      .from(teamMembers)
+      .where(and(eq(teamMembers.userId, user.id), eq(teamMembers.status, "active")));
+    return memberships.some((m: any) => {
+      const r = String(m.role || "").toLowerCase();
+      return r === "admin" || r === "owner";
+    });
+  } catch {
+    return false;
+  }
 }
 // P0 fix (audit IDOR): ownership check for by-ID endpoints. Managers/admins
 // see everything; everyone else must own the record (assignedTo / ownerUserId
@@ -2852,7 +2874,7 @@ export async function registerRoutes(
     try {
       const user = await requireAuth(req, res);
       if (!user) return;
-      if (!isManagerUser(user)) return res.status(403).json({ message: "Only admins and team leads can manage API keys" });
+      if (!(await isManagerUserWithTeams(user))) return res.status(403).json({ message: "Only admins and team leads can manage API keys" });
       const { listApiKeys } = await import("./services/api-keys.js");
       const keys = await listApiKeys(user.id);
       res.json({ keys });
@@ -2865,7 +2887,7 @@ export async function registerRoutes(
     try {
       const user = await requireAuth(req, res);
       if (!user) return;
-      if (!isManagerUser(user)) return res.status(403).json({ message: "Only admins and team leads can create API keys" });
+      if (!(await isManagerUserWithTeams(user))) return res.status(403).json({ message: "Only admins and team leads can create API keys" });
       const name = String(req.body?.name || "").trim();
       if (!name) return res.status(400).json({ message: "Name is required" });
       const scopes = Array.isArray(req.body?.scopes) ? req.body.scopes.map(String) : [];
@@ -2889,7 +2911,7 @@ export async function registerRoutes(
     try {
       const user = await requireAuth(req, res);
       if (!user) return;
-      if (!isManagerUser(user)) return res.status(403).json({ message: "Only admins and team leads can revoke API keys" });
+      if (!(await isManagerUserWithTeams(user))) return res.status(403).json({ message: "Only admins and team leads can revoke API keys" });
       const { revokeApiKey } = await import("./services/api-keys.js");
       const ok = await revokeApiKey(parseInt(req.params.id), user.id);
       if (!ok) return res.status(404).json({ message: "API key not found" });
