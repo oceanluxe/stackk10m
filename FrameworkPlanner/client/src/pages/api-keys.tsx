@@ -73,11 +73,27 @@ export default function ApiKeysPage() {
   const copyKey = async () => {
     if (!createdKey) return;
     try {
-      await navigator.clipboard.writeText(createdKey);
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(createdKey);
+      } else {
+        // Fallback for non-secure contexts / webviews where the async clipboard API is unavailable
+        const ta = document.createElement("textarea");
+        ta.value = createdKey;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.top = "0";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        ta.setSelectionRange(0, ta.value.length);
+        const ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+        if (!ok) throw new Error("execCommand copy failed");
+      }
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      toast({ title: "Could not copy to clipboard", variant: "destructive" });
+      toast({ title: "Could not copy to clipboard", description: "Select the key text manually and copy it.", variant: "destructive" });
     }
   };
 
@@ -118,7 +134,7 @@ export default function ApiKeysPage() {
             </CardHeader>
             <CardContent>
               <div className="flex items-center gap-2">
-                <code className="flex-1 text-xs bg-background border rounded p-3 break-all font-mono">
+                <code className="flex-1 text-xs bg-background border rounded p-3 break-all font-mono select-all">
                   {createdKey}
                 </code>
                 <Button size="sm" onClick={copyKey}>

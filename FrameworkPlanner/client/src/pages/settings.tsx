@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
-import { Shield, Users, Bell, Target, FileText, User, Loader2, Clock, ImageIcon, Camera, Upload, X, Trash2, Server, Database, Phone, Bot, Plus, Pencil, Save, ArrowUp, ArrowDown, Eye, EyeOff, HardDrive } from "lucide-react";
+import { Shield, Users, Bell, Target, FileText, User, Loader2, Clock, ImageIcon, Camera, Upload, X, Trash2, Server, Database, Phone, Bot, Plus, Pencil, Save, ArrowUp, ArrowDown, Eye, EyeOff, HardDrive, Key } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -657,6 +657,10 @@ function SettingsContent() {
       <Tabs
         value={activeTab}
         onValueChange={(value) => {
+          if (value === "api-keys") {
+            setLocation("/settings/api-keys");
+            return;
+          }
           setActiveTab(value);
           setLocation(`/settings?tab=${encodeURIComponent(value)}`);
         }}
@@ -698,6 +702,10 @@ function SettingsContent() {
           <TabsTrigger value="automation" className="shrink-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 py-2">
             <Bot className="w-4 h-4 mr-2" />
             Automation
+          </TabsTrigger>
+          <TabsTrigger value="api-keys" className="shrink-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 py-2">
+            <Key className="w-4 h-4 mr-2" />
+            API Keys
           </TabsTrigger>
           <TabsTrigger value="audit" className="shrink-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 py-2">
             <Clock className="w-4 h-4 mr-2" />
