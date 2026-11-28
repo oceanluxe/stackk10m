@@ -434,6 +434,16 @@ html[data-glass="on"] .lg-sidebar {
   box-shadow: 12px 0 44px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.12), inset -1px 0 0 rgba(0, 0, 0, 0.4);
 }
 
+/* Light mode + glass on: the sidebar panel turns light glass, but the sidebar
+   text tokens are white-on-black in both modes — flip them dark so labels and
+   icons stay readable at rest, with no hover or click needed. Scoped to the
+   sidebar element so nothing else in the app moves. */
+html[data-glass="on"]:not(.dark) .lg-sidebar {
+  --sidebar-foreground: 0 0% 10%;
+  --sidebar-accent: 40 25% 90%;
+  --sidebar-border: 0 0% 82%;
+}
+
 html[data-glass="on"] .lg-bottomnav {
   left: 0.75rem;
   right: 0.75rem;

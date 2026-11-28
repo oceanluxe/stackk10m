@@ -30,8 +30,10 @@ function migrateOldState(): SidebarState {
   if (savedState && ["expanded", "icon"].includes(savedState)) {
     return savedState as SidebarState;
   }
-  
-  return "icon";
+
+  // Default to expanded labels on desktop so the sidebar reads at first
+  // glance; a saved choice (or the collapse toggle) still wins.
+  return "expanded";
 }
 
 export function SidebarProvider({ children }: { children: ReactNode }) {
