@@ -227,14 +227,14 @@ export function Sidebar() {
                       isExpanded ? "justify-start px-3 py-2.5" : "justify-center px-2 py-2.5",
                       isActive
                         ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-                        : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-white"
+                        : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
                     )}
                   >
                     <item.icon
                       className={cn(
                         "h-5 w-5 flex-shrink-0 transition-colors",
                         isExpanded && "mr-3",
-                        isActive ? "text-primary-foreground" : "text-sidebar-foreground/50 group-hover:text-white"
+                        isActive ? "text-primary-foreground" : "text-sidebar-foreground/50 group-hover:text-sidebar-foreground"
                       )}
                     />
                     {isExpanded && (
@@ -296,8 +296,8 @@ export function Sidebar() {
                         className={cn(
                           "flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium transition-colors",
                           groupActive
-                            ? "text-white"
-                            : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-white"
+                            ? "text-sidebar-foreground"
+                            : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
                         )}
                         data-testid={`group-trigger-${group.name.toLowerCase()}`}
                       >
@@ -340,7 +340,7 @@ export function Sidebar() {
                                           "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
                                           isActive
                                             ? "bg-primary text-primary-foreground"
-                                            : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-white"
+                                            : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
                                         )}
                                       >
                                         <item.icon className="h-4 w-4 flex-shrink-0" />
@@ -364,7 +364,7 @@ export function Sidebar() {
                   <DropdownMenu key={group.name}>
                     <DropdownMenuTrigger asChild>
                       <button
-                        className="flex w-full items-center justify-center rounded-md p-2.5 text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-white transition-colors"
+                        className="flex w-full items-center justify-center rounded-md p-2.5 text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground transition-colors"
                         data-testid={`dropdown-trigger-${group.name.toLowerCase()}`}
                       >
                         <group.icon className="h-5 w-5 flex-shrink-0 text-sidebar-foreground/50" />
@@ -406,7 +406,7 @@ export function Sidebar() {
                   <p className="text-xs font-medium text-sidebar-foreground/60 uppercase tracking-wider mb-1">
                     Logged in as
                   </p>
-                  <p className="text-sm font-bold text-white truncate">
+                  <p className="text-sm font-bold text-sidebar-foreground truncate">
                     {user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.email}
                   </p>
                   {user.isSuperAdmin && (
@@ -425,7 +425,7 @@ export function Sidebar() {
                 {activeGoal ? (
                   <>
                     <div className="flex justify-between items-end mb-1">
-                      <span className="text-sm font-bold text-white">
+                      <span className="text-sm font-bold text-sidebar-foreground">
                         {activeGoal.currentValue}/{activeGoal.targetValue} {activeGoal.unit}
                       </span>
                       <span className="text-xs text-accent">{goalProgress.toFixed(0)}%</span>
@@ -486,7 +486,7 @@ export function Sidebar() {
                         className="text-accent"
                       />
                     </svg>
-                    <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-white">
+                    <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-sidebar-foreground">
                       {goalProgress.toFixed(0)}%
                     </span>
                   </div>
