@@ -26,6 +26,15 @@
             document.documentElement.classList.toggle("dark", t === "dark");
           }
         } catch (e) {}
+        // Liquid glass preference — resolved in the same pre-paint pass so the
+        // first painted frame already uses the saved surface style.
+        try {
+          var g = localStorage.getItem("luxe-glass");
+          document.documentElement.setAttribute("data-glass", g === "off" ? "off" : "on");
+        } catch (e) {
+          document.documentElement.setAttribute("data-glass", "on");
+        }
+
         var dark = document.documentElement.classList.contains("dark");
         var meta = document.querySelector('meta[name="theme-color"]');
         if (meta) meta.setAttribute("content", dark ? "#141414" : "#ffffff");

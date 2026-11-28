@@ -183,7 +183,7 @@ export function Header() {
   const dateString = now.toLocaleDateString([], { weekday: "short", month: "short", day: "numeric" });
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 w-full min-w-0 items-center border-b bg-background px-4 md:px-6 shadow-sm gap-4">
+    <header className="sticky top-0 z-30 flex h-16 w-full min-w-0 items-center border-b bg-background px-4 md:px-6 shadow-sm gap-4 lg-header">
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>

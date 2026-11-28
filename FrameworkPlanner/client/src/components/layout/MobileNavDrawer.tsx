@@ -35,8 +35,8 @@ export function MobileNavDrawer({ open, onOpenChange }: MobileNavDrawerProps) {
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="left" className="w-[min(20rem,85vw)] p-0">
-        <div className="flex h-dvh min-h-dvh flex-col bg-sidebar text-sidebar-foreground" data-testid="mobile-nav-drawer">
+      <SheetContent side="left" className="w-[min(20rem,85vw)] p-0 lg-panel lg-sheet">
+        <div className="flex h-dvh min-h-dvh flex-col bg-sidebar text-sidebar-foreground lg-drawer-inner" data-testid="mobile-nav-drawer">
           <div className="flex h-16 items-center gap-3 border-b border-sidebar-border bg-sidebar-accent/10 px-4">
             <img src="/luxe-logo.png" alt="Luxe RM Logo" className="h-10 w-auto object-contain" />
             <div className="min-w-0">

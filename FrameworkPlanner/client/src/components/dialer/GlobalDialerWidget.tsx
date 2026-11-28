@@ -110,9 +110,9 @@ export function GlobalDialerWidget() {
   };
 
   return (
-    <div className="fixed bottom-20 right-4 z-50 lg:bottom-6 lg:right-6">
+    <div className="fixed bottom-20 right-4 z-50 lg:bottom-6 lg:right-6 lg-fab">
       {open && (
-        <Card className="mb-3 w-72 p-4 shadow-xl">
+        <Card className="mb-3 w-72 p-4 shadow-xl lg-panel">
           <div className="mb-3 flex items-center justify-between">
             <span className="text-sm font-semibold">Phone</span>
             <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setOpen(false)}>

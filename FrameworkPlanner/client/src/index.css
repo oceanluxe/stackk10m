@@ -315,3 +315,304 @@
     }
   }
 }
+
+/* ============================================================================
+   LIQUID GLASS — Ocean Luxe reskin (presentation only)
+   ----------------------------------------------------------------------------
+   Scoped to html[data-glass="on"], which the pre-paint script in index.html
+   resolves from localStorage ("luxe-glass"). Turning it off restores the
+   original solid surfaces; nothing here changes layout, data or behaviour.
+   ========================================================================== */
+
+:root {
+  --lg-gold: #d4a017;
+  --lg-gold-line: rgba(212, 160, 23, 0.45);
+  --lg-border: rgba(255, 255, 255, 0.72);
+  --lg-border-soft: rgba(16, 16, 20, 0.08);
+  --lg-chrome: linear-gradient(158deg, rgba(255, 255, 255, 0.86), rgba(252, 250, 246, 0.64) 58%, rgba(255, 255, 255, 0.56));
+  --lg-panel: linear-gradient(158deg, rgba(255, 255, 255, 0.94), rgba(250, 248, 244, 0.82));
+  --lg-card-sheen: linear-gradient(158deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.18) 46%, rgba(16, 16, 20, 0.03));
+  --lg-shadow: 0 12px 34px rgba(42, 33, 12, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --lg-shadow-chrome: 0 18px 46px rgba(42, 33, 12, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 0 rgba(16, 16, 20, 0.06);
+  --lg-canvas: #f2eee4;
+}
+
+.dark {
+  --lg-border: rgba(255, 255, 255, 0.16);
+  --lg-border-soft: rgba(0, 0, 0, 0.45);
+  --lg-chrome: linear-gradient(158deg, rgba(40, 36, 29, 0.76), rgba(18, 17, 14, 0.6) 58%, rgba(13, 12, 10, 0.7));
+  --lg-panel: linear-gradient(158deg, rgba(34, 31, 25, 0.94), rgba(15, 14, 12, 0.9));
+  --lg-card-sheen: linear-gradient(158deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.022) 46%, rgba(0, 0, 0, 0.22));
+  --lg-shadow: 0 20px 48px rgba(0, 0, 0, 0.46), inset 0 1px 0 rgba(255, 255, 255, 0.17), inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+  --lg-shadow-chrome: 0 22px 54px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.45);
+  --lg-canvas: #07070a;
+}
+
+/* ---------- Living backdrop (dimmed, drifts slowly) ---------- */
+.lg-bg {
+  display: none;
+}
+
+html[data-glass="on"] .lg-bg {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(90% 70% at 50% -12%, rgba(212, 160, 23, 0.1), transparent 62%),
+    var(--lg-canvas);
+}
+
+.lg-bg__blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(48px);
+  will-change: transform;
+}
+
+.lg-bg__blob--gold {
+  width: 62vmax;
+  height: 62vmax;
+  top: -24vmax;
+  left: -18vmax;
+  background: radial-gradient(circle at 38% 38%, rgba(255, 214, 120, 0.28), rgba(212, 160, 23, 0.16) 52%, transparent 72%);
+  animation: lg-drift-a 34s ease-in-out infinite alternate;
+}
+
+.lg-bg__blob--amber {
+  width: 54vmax;
+  height: 54vmax;
+  top: 4vmax;
+  right: -20vmax;
+  background: radial-gradient(circle at 42% 42%, rgba(255, 180, 60, 0.22), rgba(180, 118, 8, 0.14) 55%, transparent 74%);
+  animation: lg-drift-b 42s ease-in-out infinite alternate;
+}
+
+.lg-bg__blob--deep {
+  width: 58vmax;
+  height: 58vmax;
+  bottom: -26vmax;
+  left: 10vmax;
+  background: radial-gradient(circle at 40% 36%, rgba(196, 140, 20, 0.2), rgba(92, 62, 6, 0.14) 58%, transparent 76%);
+  animation: lg-drift-c 38s ease-in-out infinite alternate;
+}
+
+@keyframes lg-drift-a {
+  to { transform: translate3d(8vmax, 6vmax, 0) scale(1.12); }
+}
+@keyframes lg-drift-b {
+  to { transform: translate3d(-7vmax, 9vmax, 0) scale(0.92); }
+}
+@keyframes lg-drift-c {
+  to { transform: translate3d(10vmax, -7vmax, 0) scale(1.08); }
+}
+
+/* App shell goes transparent so the backdrop can be seen through the glass. */
+html[data-glass="on"] .lg-app,
+html[data-glass="on"] .lg-canvas {
+  background-color: transparent;
+}
+
+/* ---------- Floating chrome: header, sidebar, bottom nav ---------- */
+html[data-glass="on"] .lg-header {
+  background-color: transparent;
+  background-image: var(--lg-chrome);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  border-bottom: 1px solid var(--lg-border);
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 rgba(0, 0, 0, 0.35);
+}
+
+html[data-glass="on"] .lg-sidebar {
+  background-color: transparent;
+  background-image: var(--lg-chrome);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  border-right: 1px solid var(--lg-border);
+  box-shadow: 12px 0 44px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.12), inset -1px 0 0 rgba(0, 0, 0, 0.4);
+}
+
+html[data-glass="on"] .lg-bottomnav {
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: calc(0.75rem + env(safe-area-inset-bottom));
+  max-width: calc(100% - 1.5rem);
+  border: 1px solid var(--lg-border);
+  border-radius: 28px;
+  background-color: transparent;
+  background-image: var(--lg-chrome);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  box-shadow: var(--lg-shadow-chrome);
+  overflow: hidden;
+}
+
+html[data-glass="on"] .lg-bottomnav > div {
+  height: 3.75rem;
+  padding-bottom: 0;
+}
+
+html[data-glass="on"] .lg-bottomnav a > div,
+html[data-glass="on"] .lg-bottomnav > div > button {
+  min-height: 44px;
+  border-radius: 20px;
+}
+
+html[data-glass="on"] .lg-bottomnav a > div:has(.text-primary),
+html[data-glass="on"] .lg-bottomnav a > div[class*="text-primary"] {
+  background-image: linear-gradient(160deg, rgba(212, 160, 23, 0.24), rgba(212, 160, 23, 0.06));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 4px 14px rgba(212, 160, 23, 0.16);
+}
+
+html[data-glass="on"] .lg-sidebar nav a > div,
+html[data-glass="on"] .lg-sidebar nav > div > button {
+  min-height: 44px;
+}
+
+/* Floating call button clears the floating nav pill on phones. */
+html[data-glass="on"] .lg-fab {
+  bottom: calc(6.5rem + env(safe-area-inset-bottom));
+}
+
+@media (min-width: 1024px) {
+  html[data-glass="on"] .lg-fab {
+    bottom: 1.5rem;
+  }
+}
+
+/* Sidebar active item keeps gold, with a glass highlight instead of flat fill. */
+html[data-glass="on"] .lg-sidebar nav a > div[class*="bg-primary"] {
+  background-image: linear-gradient(150deg, #e3b73c, var(--lg-gold));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 8px 22px rgba(212, 160, 23, 0.28);
+}
+
+/* ---------- Content cards: thicker, near-opaque glass ---------- */
+html[data-glass="on"] .lg-card {
+  background-image: var(--lg-card-sheen);
+  border: 1px solid var(--lg-border);
+  border-radius: 24px;
+  box-shadow: var(--lg-shadow);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  backdrop-filter: blur(14px) saturate(150%);
+  transition: box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Never glass on glass: cards nested in a dialog/sheet/menu sit flat. */
+html[data-glass="on"] .lg-panel .lg-card {
+  background-image: none;
+  border-color: var(--lg-border-soft);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* ---------- Sheets, dialogs, popovers, menus ---------- */
+html[data-glass="on"] .lg-panel {
+  background-color: transparent;
+  background-image: var(--lg-panel);
+  border: 1px solid var(--lg-border);
+  border-radius: 24px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+}
+
+html[data-glass="on"] .lg-dialog {
+  border-radius: 28px;
+}
+
+html[data-glass="on"] .lg-sheet {
+  border-radius: 28px;
+}
+
+html[data-glass="on"] .lg-scrim {
+  background-color: rgba(8, 7, 5, 0.6);
+  -webkit-backdrop-filter: blur(6px) saturate(120%);
+  backdrop-filter: blur(6px) saturate(120%);
+}
+
+/* The mobile drawer body paints its own solid sidebar colour — let the sheet show. */
+html[data-glass="on"] .lg-drawer-inner {
+  background-color: transparent;
+}
+
+/* ---------- Inputs stay solid: never glass on text entry ---------- */
+html[data-glass="on"] input,
+html[data-glass="on"] textarea,
+html[data-glass="on"] select {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* ---------- Focus is always visible ---------- */
+html[data-glass="on"] :focus-visible {
+  outline: 2px solid var(--lg-gold);
+  outline-offset: 2px;
+}
+
+/* ---------- Motion: respect reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html[data-glass="on"] .lg-bg__blob {
+    animation: none;
+  }
+  html[data-glass="on"] .lg-card {
+    transition: none;
+  }
+}
+
+/* ---------- Fallback: no backdrop-filter → solid surfaces ---------- */
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  html[data-glass="on"] .lg-header {
+    background-image: none;
+    background-color: hsl(var(--background));
+  }
+  html[data-glass="on"] .lg-sidebar {
+    background-image: none;
+    background-color: hsl(var(--sidebar));
+  }
+  html[data-glass="on"] .lg-bottomnav {
+    background-image: none;
+    background-color: hsl(var(--background));
+  }
+  html[data-glass="on"] .lg-panel {
+    background-image: none;
+    background-color: hsl(var(--popover));
+  }
+  html[data-glass="on"] .lg-card {
+    background-image: none;
+  }
+  html[data-glass="on"] .lg-scrim {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+}
+
+/* ---------- Fallback: the OS asked for reduced transparency ---------- */
+@media (prefers-reduced-transparency: reduce) {
+  html[data-glass="on"] .lg-header {
+    background-image: none;
+    background-color: hsl(var(--background));
+  }
+  html[data-glass="on"] .lg-sidebar {
+    background-image: none;
+    background-color: hsl(var(--sidebar));
+  }
+  html[data-glass="on"] .lg-bottomnav {
+    background-image: none;
+    background-color: hsl(var(--background));
+  }
+  html[data-glass="on"] .lg-panel {
+    background-image: none;
+    background-color: hsl(var(--popover));
+  }
+  html[data-glass="on"] .lg-card {
+    background-image: none;
+  }
+  html[data-glass="on"] .lg-bg {
+    background: hsl(var(--background));
+  }
+  html[data-glass="on"] .lg-bg__blob {
+    display: none;
+  }
+}

@@ -187,7 +187,7 @@ export function Sidebar() {
     <TooltipProvider delayDuration={0}>
       <div 
         className={cn(
-          "flex h-full flex-col bg-sidebar text-sidebar-foreground border-r border-sidebar-border shadow-xl z-40 transition-all duration-300 ease-in-out",
+          "flex h-full flex-col bg-sidebar text-sidebar-foreground border-r border-sidebar-border shadow-xl z-40 transition-all duration-300 ease-in-out lg-sidebar",
           isExpanded ? "w-64" : "w-20"
         )}
       >
