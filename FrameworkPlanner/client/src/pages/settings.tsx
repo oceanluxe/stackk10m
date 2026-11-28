@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
-import { Shield, Users, Bell, Target, FileText, User, Loader2, Clock, ImageIcon, Camera, Upload, X, Trash2, Server, Database, Phone, Bot, Plus, Pencil, Save, ArrowUp, ArrowDown, Eye, EyeOff, HardDrive, Key } from "lucide-react";
+import { Shield, Users, Bell, Target, FileText, User, Loader2, Clock, ImageIcon, Camera, Upload, X, Trash2, Server, Database, Phone, Bot, Plus, Pencil, Save, ArrowUp, ArrowDown, Eye, EyeOff, HardDrive, Key, Sparkles } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -23,10 +23,12 @@ import { StorageSettings } from "@/components/settings/StorageSettings";
 import { SkipTraceSettings } from "@/components/settings/SkipTraceSettings";
 import { apiRequest } from "@/lib/queryClient";
 import { TelnyxOnboardingWizard } from "@/components/telnyx/TelnyxOnboardingWizard";
+import { useLiquidGlass } from "@/hooks/useLiquidGlass";
 
 function SettingsContent() {
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState("account");
+  const [liquidGlass, setLiquidGlass] = useLiquidGlass();
   const [showCreateGoal, setShowCreateGoal] = useState(false);
   const [phone, setPhone] = useState("");
   const [passwordData, setPasswordData] = useState({
@@ -1660,6 +1662,32 @@ function SettingsContent() {
 
         {/* APPEARANCE TAB */}
         <TabsContent value="appearance" className="mt-6 space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Sparkles className="w-5 h-5" />
+                Liquid glass
+              </CardTitle>
+              <CardDescription>Frosted glass surfaces over a drifting Ocean Luxe backdrop. Turn off for solid surfaces.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-between gap-4">
+                <div className="space-y-1">
+                  <Label htmlFor="liquid-glass-toggle">Liquid glass</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Applies to navigation, cards, dialogs and floating panels. Your choice is saved on this device.
+                  </p>
+                </div>
+                <Switch
+                  id="liquid-glass-toggle"
+                  checked={liquidGlass}
+                  onCheckedChange={setLiquidGlass}
+                  data-testid="switch-liquid-glass"
+                />
+              </div>
+            </CardContent>
+          </Card>
+
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">

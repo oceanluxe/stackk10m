@@ -26,7 +26,7 @@ const SheetOverlay = React.forwardRef<
       // fires, leaving the sheet mounted forever WITH its body-level
       // `pointer-events: none` (set by the modal DismissableLayer), which dead-clicks
       // the entire app. Enter animations are safe (they play on open) and kept.
-      "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=open]:fade-in-0",
+      "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=open]:fade-in-0 lg-scrim",
       className
     )}
     {...props}
@@ -68,7 +68,7 @@ const SheetContent = React.forwardRef<
     <SheetOverlay />
     <SheetPrimitive.Content
       ref={ref}
-      className={cn(sheetVariants({ side }), className)}
+      className={cn(sheetVariants({ side }), "lg-panel lg-sheet", className)}
       {...props}
     >
       <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
