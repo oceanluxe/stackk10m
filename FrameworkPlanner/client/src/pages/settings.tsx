@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
-import { Shield, Users, Bell, Target, FileText, User, Loader2, Clock, ImageIcon, Camera, Upload, X, Trash2, Server, Database, Phone, Bot, Plus, Pencil, Save, ArrowUp, ArrowDown, Eye, EyeOff, HardDrive, Key, Sparkles } from "lucide-react";
+import { Shield, Users, Bell, Target, FileText, User, Loader2, Clock, ImageIcon, Camera, Upload, X, Trash2, Server, Database, Phone, Bot, Plus, Pencil, Save, ArrowUp, ArrowDown, Eye, EyeOff, HardDrive, Key, Sparkles, Sun, Moon } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -24,11 +24,13 @@ import { SkipTraceSettings } from "@/components/settings/SkipTraceSettings";
 import { apiRequest } from "@/lib/queryClient";
 import { TelnyxOnboardingWizard } from "@/components/telnyx/TelnyxOnboardingWizard";
 import { useLiquidGlass } from "@/hooks/useLiquidGlass";
+import { useTheme } from "next-themes";
 
 function SettingsContent() {
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState("account");
   const [liquidGlass, setLiquidGlass] = useLiquidGlass();
+  const { theme, setTheme } = useTheme();
   const [showCreateGoal, setShowCreateGoal] = useState(false);
   const [phone, setPhone] = useState("");
   const [passwordData, setPasswordData] = useState({
@@ -1684,6 +1686,38 @@ function SettingsContent() {
                   onCheckedChange={setLiquidGlass}
                   data-testid="switch-liquid-glass"
                 />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Sun className="w-5 h-5" />
+                Theme
+              </CardTitle>
+              <CardDescription>Light or dark. The sun/moon button in the header flips the same choice.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center gap-2">
+                <Button
+                  type="button"
+                  variant={theme === "light" ? "default" : "outline"}
+                  onClick={() => setTheme("light")}
+                  data-testid="theme-light"
+                >
+                  <Sun className="w-4 h-4 mr-2" />
+                  Light
+                </Button>
+                <Button
+                  type="button"
+                  variant={theme === "dark" ? "default" : "outline"}
+                  onClick={() => setTheme("dark")}
+                  data-testid="theme-dark"
+                >
+                  <Moon className="w-4 h-4 mr-2" />
+                  Dark
+                </Button>
               </div>
             </CardContent>
           </Card>
